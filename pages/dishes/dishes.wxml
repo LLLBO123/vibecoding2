@@ -1,0 +1,41 @@
+<view class="page">
+  <view class="section-title header-row">
+    <text>菜库</text>
+    <view class="header-actions">
+      <button class="button-ghost compact" bindtap="manualRefresh">刷新</button>
+      <button class="button-ghost compact" bindtap="clearMyVotes" loading="{{busy}}" disabled="{{busy}}">清空</button>
+    </view>
+  </view>
+
+  <view class="search-row">
+    <input class="search-input" placeholder="搜索菜名、食材、口味" value="{{keyword}}" bindinput="searchDishes" />
+    <button wx:if="{{keyword}}" class="button-ghost compact" bindtap="clearSearch">清除</button>
+  </view>
+
+  <view class="dish-layout">
+    <scroll-view scroll-y class="category-list">
+      <view wx:for="{{categories}}" wx:key="*this" class="category-item {{activeCategory === item ? 'active' : ''}}" bindtap="setCategory" data-category="{{item}}">
+        {{item}}
+      </view>
+    </scroll-view>
+
+    <scroll-view scroll-y class="dish-list">
+      <view wx:if="{{visibleDishes.length === 0}}" class="empty dish-empty">没有找到合适的菜，换个关键词试试。</view>
+      <view wx:for="{{visibleDishes}}" wx:key="id" class="dish-card card {{item.selected ? 'selected' : ''}}">
+        <view class="row space-between">
+          <view class="dish-info">
+            <view class="dish-name">{{item.name}}</view>
+            <view class="muted">{{item.category}} · {{item.time}} 分钟</view>
+          </view>
+          <button class="{{item.selected ? 'button-primary' : 'button-ghost'}} compact" bindtap="toggleVote" data-id="{{item.id}}" loading="{{busy}}" disabled="{{busy}}">
+            {{item.selected ? '已点' : '想吃'}}
+          </button>
+        </view>
+        <view class="tags">
+          <text wx:for="{{item.tags}}" wx:key="*this" class="tag">{{item}}</text>
+        </view>
+        <view class="ingredients">{{item.ingredientsText}}</view>
+      </view>
+    </scroll-view>
+  </view>
+</view>

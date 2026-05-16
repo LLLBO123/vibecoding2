@@ -1,0 +1,99 @@
+.compact {
+  min-width: 112rpx;
+  height: 64rpx;
+  padding: 0 20rpx;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+  line-height: 64rpx;
+}
+
+.title-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12rpx;
+}
+
+.sync-status {
+  margin: -6rpx 0 10rpx;
+  color: #2f6f5e;
+  font-size: 24rpx;
+  text-align: right;
+}
+
+.hide-row {
+  display: flex;
+  align-items: center;
+  margin-top: 18rpx;
+  color: #5f554c;
+  font-size: 26rpx;
+}
+
+.mini-check {
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 10rpx;
+  border: 3rpx solid #c8baaa;
+  border-radius: 8rpx;
+}
+
+.mini-check.checked {
+  border-color: #2f6f5e;
+  background: #2f6f5e;
+}
+
+.group-title {
+  margin: 24rpx 0 12rpx;
+  color: #826d4e;
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+.shopping-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 14rpx;
+  padding: 20rpx;
+}
+
+.shopping-item.checked-item {
+  background: #f7f4ee;
+}
+
+.tick {
+  flex: 0 0 auto;
+  width: 42rpx;
+  height: 42rpx;
+  margin: 6rpx 18rpx 0 0;
+  border: 3rpx solid #c8baaa;
+  border-radius: 50%;
+}
+
+.tick.checked {
+  border-color: #2f6f5e;
+  background: #2f6f5e;
+  box-shadow: inset 0 0 0 8rpx #f7fcf4;
+}
+
+.shopping-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.ingredient {
+  font-size: 32rpx;
+  font-weight: 700;
+}
+
+.ingredient.done {
+  color: #9e958b;
+  text-decoration: line-through;
+}
+
+.amount {
+  max-width: 220rpx;
+  color: #6d5b49;
+  font-size: 24rpx;
+  text-align: right;
+  line-height: 1.35;
+}

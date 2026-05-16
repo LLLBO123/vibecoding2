@@ -1,0 +1,53 @@
+<view class="page">
+  <view class="section">
+    <view class="section-title">
+      <text>已确认菜单</text>
+      <view class="title-actions">
+        <button class="button-ghost compact" bindtap="manualRefresh">刷新</button>
+        <button class="button-ghost compact" bindtap="clearMenu" loading="{{busy}}" disabled="{{busy}}">清空</button>
+        <button class="button-ghost compact" open-type="share">分享</button>
+        <button class="button-primary compact" bindtap="saveMenu" loading="{{busy}}" disabled="{{busy}}">生成清单</button>
+      </view>
+    </view>
+    <view wx:if="{{syncStatusText}}" class="sync-status">{{syncStatusText}}</view>
+    <view class="status-card card {{dailyStatus.phase}}">
+      <view class="status-title">{{dailyStatus.title}}</view>
+      <view class="muted">{{dailyStatus.message}}</view>
+    </view>
+    <view wx:if="{{selectedDishes.length === 0}}" class="empty">从候选菜里勾选，或按人数随机搭配一桌菜。</view>
+    <view wx:else class="selected-strip">
+      <view wx:for="{{selectedDishes}}" wx:key="id" class="selected-pill" bindtap="removeSelectedDish" data-id="{{item.id}}">
+        {{item.name}} ×
+      </view>
+    </view>
+  </view>
+
+  <view class="section card random-panel">
+    <view class="random-title">随机搭配</view>
+    <view class="random-row">
+      <view class="people-step" bindtap="stepPeople" data-delta="-1">-</view>
+      <input class="people-input" type="number" value="{{peopleCount}}" bindinput="changePeopleCount" />
+      <view class="people-step" bindtap="stepPeople" data-delta="1">+</view>
+      <view class="people-label">人</view>
+      <button class="button-primary random-button" bindtap="randomMenu">随机生成</button>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">候选菜</view>
+    <view wx:if="{{ranked.length === 0}}" class="empty">今天还没有候选菜，可以先去菜库选几道。</view>
+    <view wx:for="{{ranked}}" wx:key="id" class="menu-card card {{item.inMenu ? 'selected' : ''}}" bindtap="toggleDish" data-id="{{item.id}}">
+      <view class="row space-between">
+        <view>
+          <view class="dish-name">{{item.name}}</view>
+          <view class="muted">{{item.decisionText}}</view>
+          <view class="muted">想吃的人：{{item.votersText}}</view>
+        </view>
+        <view class="check {{item.inMenu ? 'checked' : ''}}">{{item.inMenu ? '已选' : '选择'}}</view>
+      </view>
+      <view class="tags">
+        <text wx:for="{{item.tags}}" wx:key="*this" class="tag">{{item}}</text>
+      </view>
+    </view>
+  </view>
+</view>

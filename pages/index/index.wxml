@@ -1,0 +1,65 @@
+<view class="page">
+  <view class="hero">
+    <view>
+      <view class="eyebrow">{{dateText}}</view>
+      <view class="title">今天吃什么？</view>
+      <view class="muted">当前成员：{{currentMember.name}}</view>
+    </view>
+    <button class="button-ghost compact" bindtap="goProfile">切换</button>
+  </view>
+
+  <view class="status-card card {{dailyStatus.phase}}">
+    <view class="status-title">{{dailyStatus.title}}</view>
+    <view class="muted">{{dailyStatus.message}}</view>
+  </view>
+
+  <view class="section card participation-card">
+    <view class="row space-between">
+      <view class="participation-title">今日参与</view>
+      <view class="participation-count">{{participation.done}}/{{participation.total}}</view>
+    </view>
+    <view class="progress-track">
+      <view class="progress-fill" style="width: {{participation.percent}}%;"></view>
+    </view>
+    <view class="muted">已点：{{participation.doneText}}</view>
+    <view class="muted">未点：{{participation.pendingText}}</view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">
+      <text>候选菜</text>
+      <view class="title-actions">
+        <button class="button-ghost compact" bindtap="manualRefresh">刷新</button>
+        <button class="button-ghost compact" bindtap="clearMyVotes" loading="{{busy}}" disabled="{{busy}}">清空</button>
+        <button class="button-primary compact" bindtap="goDishes">去点菜</button>
+      </view>
+    </view>
+    <view wx:if="{{ranked.length === 0}}" class="empty">还没人表达想吃什么，可以先去菜库选几道，或者到确认页随机生成。</view>
+    <view wx:for="{{ranked}}" wx:key="id" class="vote-card card">
+      <view class="row space-between">
+        <view class="dish-name">{{item.name}}</view>
+        <view class="row">
+          <button wx:if="{{item.canRemove}}" class="button-ghost compact remove-button" bindtap="removeMyVote" data-id="{{item.id}}" loading="{{busy}}" disabled="{{busy}}">取消</button>
+          <view class="vote-count">{{item.voteCount}} 票</view>
+        </view>
+      </view>
+      <view class="muted">{{item.decisionText}}</view>
+      <view class="muted">想吃的人：{{item.votersText}}</view>
+      <view class="tags">
+        <text wx:for="{{item.tags}}" wx:key="*this" class="tag">{{item}}</text>
+      </view>
+      <view wx:if="{{item.notesText}}" class="note">备注：{{item.notesText}}</view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">随手点几个</view>
+    <view class="quick-grid">
+      <view wx:for="{{quickDishes}}" wx:key="id" class="quick-card card {{item.selected ? 'selected' : ''}}" bindtap="toggleVote" data-id="{{item.id}}">
+        <view class="quick-title">{{item.name}}</view>
+        <view class="muted">{{item.time}} 分钟 · {{item.category}}</view>
+        <view class="quick-action {{item.selected ? 'selected' : ''}}">{{item.selected ? '已点' : '点这道'}}</view>
+      </view>
+    </view>
+  </view>
+</view>

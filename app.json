@@ -1,0 +1,41 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/dishes/dishes",
+    "pages/menu/menu",
+    "pages/shopping/shopping",
+    "pages/profile/profile"
+  ],
+  "window": {
+    "navigationBarTitleText": "今天吃什么",
+    "navigationBarBackgroundColor": "#F9F6F0",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F9F6F0"
+  },
+  "tabBar": {
+    "color": "#7D766C",
+    "selectedColor": "#2F6F5E",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "今日"
+      },
+      {
+        "pagePath": "pages/menu/menu",
+        "text": "确认"
+      },
+      {
+        "pagePath": "pages/shopping/shopping",
+        "text": "采购"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "家庭"
+      }
+    ]
+  },
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents"
+}

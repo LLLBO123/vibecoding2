@@ -1,0 +1,157 @@
+.hero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24rpx;
+  padding: 30rpx 28rpx;
+  border: 1rpx solid #e5dac9;
+  border-radius: 16rpx;
+  background: linear-gradient(135deg, #fff9ee 0%, #edf6ee 100%);
+  box-shadow: 0 10rpx 26rpx rgba(64, 45, 25, 0.06);
+}
+
+.eyebrow {
+  color: #8a6a3f;
+  font-size: 24rpx;
+  font-weight: 600;
+}
+
+.title {
+  margin-top: 8rpx;
+  font-size: 48rpx;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.compact {
+  min-width: 124rpx;
+  height: 64rpx;
+  padding: 0 20rpx;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+  line-height: 64rpx;
+}
+
+.title-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12rpx;
+}
+
+.status-card {
+  margin-bottom: 28rpx;
+  border-left: 8rpx solid #c7a15a;
+  background: #fffaf1;
+}
+
+.status-card.voting {
+  border-left-color: #2f6f5e;
+  background: #f6fbf4;
+}
+
+.status-card.deadline {
+  border-left-color: #b05b45;
+  background: #fff6f1;
+}
+
+.status-title {
+  margin-bottom: 8rpx;
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.participation-card {
+  margin-bottom: 28rpx;
+}
+
+.participation-title {
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.participation-count {
+  color: #2f6f5e;
+  font-size: 30rpx;
+  font-weight: 800;
+}
+
+.progress-track {
+  height: 12rpx;
+  margin: 18rpx 0 14rpx;
+  overflow: hidden;
+  border-radius: 999rpx;
+  background: #efe5d7;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 999rpx;
+  background: linear-gradient(90deg, #2f6f5e, #7f9b55);
+}
+
+.vote-card {
+  margin-bottom: 18rpx;
+}
+
+.dish-name {
+  font-size: 34rpx;
+  font-weight: 700;
+}
+
+.vote-count {
+  margin-left: 12rpx;
+  color: #2f6f5e;
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+.remove-button {
+  min-width: 96rpx;
+}
+
+.note {
+  margin-top: 14rpx;
+  color: #8a5d2c;
+  font-size: 26rpx;
+}
+
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18rpx;
+}
+
+.quick-card {
+  min-height: 210rpx;
+  border-color: #eadfce;
+}
+
+.quick-card.selected {
+  border-color: #94b89e;
+  background: #f7fcf4;
+}
+
+.quick-title {
+  min-height: 78rpx;
+  font-size: 32rpx;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.quick-action {
+  display: inline-flex;
+  align-items: center;
+  height: 48rpx;
+  margin-top: 26rpx;
+  padding: 0 18rpx;
+  border-radius: 999rpx;
+  background: #f5eadb;
+  color: #6d5b49;
+  font-size: 24rpx;
+}
+
+.quick-action.selected {
+  background: #2f6f5e;
+  color: #ffffff;
+}
