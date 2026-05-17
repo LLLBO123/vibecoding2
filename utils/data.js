@@ -10,1335 +10,683 @@ const familyMembers = [
   { id: "other", name: "其他人", role: "manager" }
 ];
 
+function ingredient(name, category, amount) {
+  return { name, category, amount };
+}
+
+function dish(id, name, origin, category, time, tags, ingredients) {
+  return {
+    id,
+    name,
+    origin,
+    category,
+    time,
+    tags: [origin, ...tags],
+    ingredients
+  };
+}
+
+const gd = "广东家常";
+const hakka = "客家菜";
+
 const dishes = [
-  {
-    id: "hakka-stuffed-tofu",
-    name: "客家酿豆腐",
-    category: "客家三宝",
-    time: 35,
-    tags: ["不辣", "经典", "下饭"],
-    ingredients: [
-      { name: "老豆腐", category: "豆制品", amount: "4块" },
-      { name: "猪肉末", category: "肉类", amount: "300g" },
-      { name: "香菇", category: "蔬菜", amount: "6朵" },
-      { name: "小葱", category: "调料", amount: "1把" },
-      { name: "蚝油", category: "调料", amount: "少许" }
-    ]
-  },
-  {
-    id: "hakka-salt-baked-chicken",
-    name: "客家盐焗鸡",
-    category: "客家三宝",
-    time: 55,
-    tags: ["经典", "硬菜", "不辣"],
-    ingredients: [
-      { name: "三黄鸡", category: "肉类", amount: "1只" },
-      { name: "盐焗鸡粉", category: "调料", amount: "1包" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "小葱", category: "调料", amount: "1把" },
-      { name: "粗盐", category: "调料", amount: "适量" }
-    ]
-  },
-  {
-    id: "hakka-meicai-pork",
-    name: "梅菜扣肉",
-    category: "客家三宝",
-    time: 90,
-    tags: ["经典", "硬菜", "下饭"],
-    ingredients: [
-      { name: "五花肉", category: "肉类", amount: "700g" },
-      { name: "梅干菜", category: "干货", amount: "150g" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "蒜", category: "调料", amount: "5瓣" },
-      { name: "老抽", category: "调料", amount: "少许" }
-    ]
-  },
-  {
-    id: "hakka-stir-fry",
-    name: "客家小炒",
-    category: "小炒",
-    time: 28,
-    tags: ["下饭", "咸香", "快手"],
-    ingredients: [
-      { name: "五花肉", category: "肉类", amount: "250g" },
-      { name: "鱿鱼干", category: "干货", amount: "1只" },
-      { name: "豆干", category: "豆制品", amount: "4块" },
-      { name: "芹菜", category: "蔬菜", amount: "1把" },
-      { name: "小葱", category: "调料", amount: "1把" }
-    ]
-  },
-  {
-    id: "stuffed-three-treasures",
-    name: "客家酿三宝",
-    category: "酿菜",
-    time: 45,
-    tags: ["经典", "下饭"],
-    ingredients: [
-      { name: "苦瓜", category: "蔬菜", amount: "1根" },
-      { name: "茄子", category: "蔬菜", amount: "1根" },
-      { name: "青椒", category: "蔬菜", amount: "4个" },
-      { name: "猪肉末", category: "肉类", amount: "350g" },
-      { name: "香菇", category: "蔬菜", amount: "6朵" }
-    ]
-  },
-  {
-    id: "stuffed-bitter-melon",
-    name: "酿苦瓜",
-    category: "酿菜",
-    time: 40,
-    tags: ["清爽", "下饭"],
-    ingredients: [
-      { name: "苦瓜", category: "蔬菜", amount: "2根" },
-      { name: "猪肉末", category: "肉类", amount: "300g" },
-      { name: "香菇", category: "蔬菜", amount: "4朵" },
-      { name: "蒜", category: "调料", amount: "4瓣" },
-      { name: "蚝油", category: "调料", amount: "少许" }
-    ]
-  },
-  {
-    id: "stuffed-eggplant",
-    name: "酿茄子",
-    category: "酿菜",
-    time: 35,
-    tags: ["下饭", "家常"],
-    ingredients: [
-      { name: "茄子", category: "蔬菜", amount: "2根" },
-      { name: "猪肉末", category: "肉类", amount: "300g" },
-      { name: "马蹄", category: "蔬菜", amount: "5个" },
-      { name: "小葱", category: "调料", amount: "1把" },
-      { name: "生抽", category: "调料", amount: "少许" }
-    ]
-  },
-  {
-    id: "wuzhimaotao-pork-soup",
-    name: "五指毛桃猪骨汤",
-    category: "汤",
-    time: 90,
-    tags: ["清润", "不辣", "汤"],
-    ingredients: [
-      { name: "猪骨", category: "肉类", amount: "600g" },
-      { name: "五指毛桃", category: "干货", amount: "1把" },
-      { name: "红枣", category: "干货", amount: "6颗" },
-      { name: "玉米", category: "蔬菜", amount: "1根" },
-      { name: "姜", category: "调料", amount: "1块" }
-    ]
-  },
-  {
-    id: "hakka-rice-wine-chicken",
-    name: "客家娘酒鸡",
-    category: "荤菜",
-    time: 45,
-    tags: ["酒香", "滋补", "不辣"],
-    ingredients: [
-      { name: "鸡肉", category: "肉类", amount: "半只" },
-      { name: "客家娘酒", category: "酒水", amount: "500ml" },
-      { name: "姜", category: "调料", amount: "1大块" },
-      { name: "红枣", category: "干货", amount: "6颗" },
-      { name: "枸杞", category: "干货", amount: "少许" }
-    ]
-  },
-  {
-    id: "hakka-salty-chicken",
-    name: "客家咸鸡",
-    category: "荤菜",
-    time: 50,
-    tags: ["咸香", "不辣", "冷吃"],
-    ingredients: [
-      { name: "鸡", category: "肉类", amount: "1只" },
-      { name: "粗盐", category: "调料", amount: "适量" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "沙姜粉", category: "调料", amount: "少许" },
-      { name: "小葱", category: "调料", amount: "1把" }
-    ]
-  },
-  {
-    id: "pork-belly-chicken-soup",
-    name: "猪肚包鸡",
-    category: "汤",
-    time: 110,
-    tags: ["硬菜", "汤", "不辣"],
-    ingredients: [
-      { name: "猪肚", category: "肉类", amount: "1个" },
-      { name: "鸡", category: "肉类", amount: "1只" },
-      { name: "白胡椒粒", category: "调料", amount: "1小把" },
-      { name: "红枣", category: "干货", amount: "8颗" },
-      { name: "姜", category: "调料", amount: "1块" }
-    ]
-  },
-  {
-    id: "pickled-mustard-pork-intestine",
-    name: "酸菜炒大肠",
-    category: "小炒",
-    time: 35,
-    tags: ["酸香", "下饭"],
-    ingredients: [
-      { name: "猪大肠", category: "肉类", amount: "500g" },
-      { name: "酸菜", category: "腌菜", amount: "250g" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "蒜", category: "调料", amount: "5瓣" },
-      { name: "青椒", category: "蔬菜", amount: "2个" }
-    ]
-  },
-  {
-    id: "bamboo-shoot-pork-belly",
-    name: "笋干焖五花肉",
-    category: "焖菜",
-    time: 75,
-    tags: ["下饭", "咸香"],
-    ingredients: [
-      { name: "五花肉", category: "肉类", amount: "600g" },
-      { name: "笋干", category: "干货", amount: "150g" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "蒜", category: "调料", amount: "5瓣" },
-      { name: "八角", category: "调料", amount: "2个" }
-    ]
-  },
-  {
-    id: "taro-pork-belly",
-    name: "芋头扣肉",
-    category: "焖菜",
-    time: 85,
-    tags: ["硬菜", "香糯"],
-    ingredients: [
-      { name: "五花肉", category: "肉类", amount: "700g" },
-      { name: "荔浦芋头", category: "蔬菜", amount: "1个" },
-      { name: "南乳", category: "调料", amount: "2块" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "蒜", category: "调料", amount: "5瓣" }
-    ]
-  },
-  {
-    id: "meicai-steamed-pork-patty",
-    name: "梅菜蒸肉饼",
-    category: "蒸菜",
-    time: 28,
-    tags: ["快手", "下饭", "家常"],
-    ingredients: [
-      { name: "猪肉末", category: "肉类", amount: "350g" },
-      { name: "梅干菜", category: "干货", amount: "80g" },
-      { name: "马蹄", category: "蔬菜", amount: "5个" },
-      { name: "小葱", category: "调料", amount: "1把" },
-      { name: "生抽", category: "调料", amount: "少许" }
-    ]
-  },
-  {
-    id: "dried-vegetable-pork-bone-soup",
-    name: "菜干猪骨汤",
-    category: "汤",
-    time: 90,
-    tags: ["清润", "不辣", "汤"],
-    ingredients: [
-      { name: "猪骨", category: "肉类", amount: "600g" },
-      { name: "白菜干", category: "干货", amount: "1把" },
-      { name: "蜜枣", category: "干货", amount: "2颗" },
-      { name: "胡萝卜", category: "蔬菜", amount: "1根" },
-      { name: "姜", category: "调料", amount: "1块" }
-    ]
-  },
-  {
-    id: "mustard-pork-belly-soup",
-    name: "咸菜猪肚汤",
-    category: "汤",
-    time: 80,
-    tags: ["酸香", "汤", "不辣"],
-    ingredients: [
-      { name: "猪肚", category: "肉类", amount: "1个" },
-      { name: "咸酸菜", category: "腌菜", amount: "250g" },
-      { name: "白胡椒粒", category: "调料", amount: "1小把" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "小葱", category: "调料", amount: "1把" }
-    ]
-  },
-  {
-    id: "bitter-melon-rib-soup",
-    name: "苦瓜排骨汤",
-    category: "汤",
-    time: 65,
-    tags: ["清爽", "不辣", "汤"],
-    ingredients: [
-      { name: "排骨", category: "肉类", amount: "500g" },
-      { name: "苦瓜", category: "蔬菜", amount: "2根" },
-      { name: "黄豆", category: "干货", amount: "1小碗" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "蜜枣", category: "干货", amount: "1颗" }
-    ]
-  },
-  {
-    id: "hakka-radish-balls",
-    name: "客家萝卜丸",
-    category: "小吃",
-    time: 45,
-    tags: ["家常", "蒸菜"],
-    ingredients: [
-      { name: "白萝卜", category: "蔬菜", amount: "1根" },
-      { name: "粘米粉", category: "粮油", amount: "200g" },
-      { name: "腊肠", category: "肉类", amount: "1根" },
-      { name: "虾米", category: "干货", amount: "1小把" },
-      { name: "小葱", category: "调料", amount: "1把" }
-    ]
-  },
-  {
-    id: "hakka-abacus-seeds",
-    name: "客家算盘子",
-    category: "小吃",
-    time: 60,
-    tags: ["芋香", "家常"],
-    ingredients: [
-      { name: "芋头", category: "蔬菜", amount: "600g" },
-      { name: "木薯粉", category: "粮油", amount: "200g" },
-      { name: "猪肉末", category: "肉类", amount: "150g" },
-      { name: "香菇", category: "蔬菜", amount: "6朵" },
-      { name: "虾米", category: "干货", amount: "1小把" }
-    ]
-  },
-  {
-    id: "hakka-braised-duck",
-    name: "客家焖鸭",
-    category: "焖菜",
-    time: 70,
-    tags: ["硬菜", "不辣"],
-    ingredients: [
-      { name: "鸭肉", category: "肉类", amount: "半只" },
-      { name: "姜", category: "调料", amount: "1大块" },
-      { name: "蒜", category: "调料", amount: "5瓣" },
-      { name: "米酒", category: "酒水", amount: "少许" },
-      { name: "生抽", category: "调料", amount: "少许" }
-    ]
-  },
-  {
-    id: "fried-river-shrimp-chives",
-    name: "韭菜炒河虾",
-    category: "小炒",
-    time: 18,
-    tags: ["快手", "鲜香"],
-    ingredients: [
-      { name: "河虾", category: "水产", amount: "350g" },
-      { name: "韭菜", category: "蔬菜", amount: "1把" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "蒜", category: "调料", amount: "3瓣" },
-      { name: "米酒", category: "酒水", amount: "少许" }
-    ]
-  },
-  {
-    id: "hakka-pickled-mustard-pork",
-    name: "咸菜焖猪肉",
-    category: "焖菜",
-    time: 55,
-    tags: ["下饭", "酸香"],
-    ingredients: [
-      { name: "五花肉", category: "肉类", amount: "500g" },
-      { name: "咸酸菜", category: "腌菜", amount: "250g" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "蒜", category: "调料", amount: "5瓣" },
-      { name: "冰糖", category: "调料", amount: "少许" }
-    ]
-  },
-  {
-    id: "cantonese-poached-chicken",
-    name: "白切鸡",
-    category: "广东家常",
-    time: 50,
-    tags: ["经典", "不辣", "清爽"],
-    ingredients: [
-      { name: "三黄鸡", category: "肉类", amount: "1只" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "小葱", category: "调料", amount: "1把" },
-      { name: "沙姜", category: "调料", amount: "少许" },
-      { name: "花生油", category: "粮油", amount: "少许" }
-    ]
-  },
-  {
-    id: "steamed-sea-bass",
-    name: "清蒸鲈鱼",
-    category: "广东家常",
-    time: 25,
-    tags: ["清淡", "不辣", "鲜"],
-    ingredients: [
-      { name: "鲈鱼", category: "水产", amount: "1条" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "小葱", category: "调料", amount: "1把" },
-      { name: "蒸鱼豉油", category: "调料", amount: "少许" },
-      { name: "花生油", category: "粮油", amount: "少许" }
-    ]
-  },
-  {
-    id: "black-bean-steamed-ribs",
-    name: "豉汁蒸排骨",
-    category: "蒸菜",
-    time: 35,
-    tags: ["下饭", "不辣", "家常"],
-    ingredients: [
-      { name: "排骨", category: "肉类", amount: "500g" },
-      { name: "豆豉", category: "调料", amount: "1勺" },
-      { name: "蒜", category: "调料", amount: "5瓣" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "淀粉", category: "粮油", amount: "少许" }
-    ]
-  },
-  {
-    id: "steamed-minced-pork-egg",
-    name: "肉末蒸水蛋",
-    category: "蒸菜",
-    time: 18,
-    tags: ["快手", "不辣", "小孩爱吃"],
-    ingredients: [
-      { name: "鸡蛋", category: "蛋奶", amount: "4个" },
-      { name: "猪肉末", category: "肉类", amount: "150g" },
-      { name: "小葱", category: "调料", amount: "1把" },
-      { name: "生抽", category: "调料", amount: "少许" },
-      { name: "香油", category: "粮油", amount: "少许" }
-    ]
-  },
-  {
-    id: "steamed-garlic-shrimp",
-    name: "蒜蓉粉丝蒸虾",
-    category: "蒸菜",
-    time: 28,
-    tags: ["鲜香", "不辣"],
-    ingredients: [
-      { name: "鲜虾", category: "水产", amount: "500g" },
-      { name: "粉丝", category: "粮油", amount: "1把" },
-      { name: "蒜", category: "调料", amount: "1头" },
-      { name: "小葱", category: "调料", amount: "1把" },
-      { name: "蒸鱼豉油", category: "调料", amount: "少许" }
-    ]
-  },
-  {
-    id: "claypot-chicken",
-    name: "啫啫鸡煲",
-    category: "煲仔菜",
-    time: 40,
-    tags: ["香口", "下饭"],
-    ingredients: [
-      { name: "鸡腿肉", category: "肉类", amount: "600g" },
-      { name: "洋葱", category: "蔬菜", amount: "1个" },
-      { name: "姜", category: "调料", amount: "1大块" },
-      { name: "蒜", category: "调料", amount: "1头" },
-      { name: "柱侯酱", category: "调料", amount: "少许" }
-    ]
-  },
-  {
-    id: "beef-brisket-radish",
-    name: "萝卜焖牛腩",
-    category: "焖菜",
-    time: 90,
-    tags: ["硬菜", "下饭", "不辣"],
-    ingredients: [
-      { name: "牛腩", category: "肉类", amount: "700g" },
-      { name: "白萝卜", category: "蔬菜", amount: "1根" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "柱侯酱", category: "调料", amount: "少许" },
-      { name: "八角", category: "调料", amount: "2个" }
-    ]
-  },
-  {
-    id: "cantonese-sweet-sour-pork",
-    name: "菠萝咕噜肉",
-    category: "广东家常",
-    time: 45,
-    tags: ["酸甜", "小孩爱吃"],
-    ingredients: [
-      { name: "里脊肉", category: "肉类", amount: "400g" },
-      { name: "菠萝", category: "水果", amount: "半个" },
-      { name: "彩椒", category: "蔬菜", amount: "2个" },
-      { name: "番茄酱", category: "调料", amount: "适量" },
-      { name: "淀粉", category: "粮油", amount: "适量" }
-    ]
-  },
-  {
-    id: "tomato-beef",
-    name: "番茄牛肉",
-    category: "广东家常",
-    time: 35,
-    tags: ["下饭", "不辣"],
-    ingredients: [
-      { name: "牛肉", category: "肉类", amount: "350g" },
-      { name: "番茄", category: "蔬菜", amount: "3个" },
-      { name: "洋葱", category: "蔬菜", amount: "半个" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "生抽", category: "调料", amount: "少许" }
-    ]
-  },
-  {
-    id: "scrambled-egg-tomato",
-    name: "番茄炒蛋",
-    category: "快手菜",
-    time: 12,
-    tags: ["快手", "不辣", "小孩爱吃"],
-    ingredients: [
-      { name: "番茄", category: "蔬菜", amount: "3个" },
-      { name: "鸡蛋", category: "蛋奶", amount: "4个" },
-      { name: "小葱", category: "调料", amount: "1把" },
-      { name: "白糖", category: "调料", amount: "少许" },
-      { name: "花生油", category: "粮油", amount: "少许" }
-    ]
-  },
-  {
-    id: "garlic-choy-sum",
-    name: "蒜蓉菜心",
-    category: "青菜",
-    time: 12,
-    tags: ["快手", "清淡", "不辣"],
-    ingredients: [
-      { name: "菜心", category: "蔬菜", amount: "1斤" },
-      { name: "蒜", category: "调料", amount: "6瓣" },
-      { name: "蚝油", category: "调料", amount: "少许" },
-      { name: "花生油", category: "粮油", amount: "少许" }
-    ]
-  },
-  {
-    id: "lettuce-oyster-sauce",
-    name: "蚝油生菜",
-    category: "青菜",
-    time: 10,
-    tags: ["快手", "清淡", "不辣"],
-    ingredients: [
-      { name: "生菜", category: "蔬菜", amount: "2颗" },
-      { name: "蒜", category: "调料", amount: "5瓣" },
-      { name: "蚝油", category: "调料", amount: "少许" },
-      { name: "生抽", category: "调料", amount: "少许" }
-    ]
-  },
-  {
-    id: "superior-soup-vegetables",
-    name: "上汤时蔬",
-    category: "青菜",
-    time: 20,
-    tags: ["清淡", "不辣"],
-    ingredients: [
-      { name: "时蔬", category: "蔬菜", amount: "1斤" },
-      { name: "皮蛋", category: "蛋奶", amount: "1个" },
-      { name: "咸蛋", category: "蛋奶", amount: "1个" },
-      { name: "蒜", category: "调料", amount: "5瓣" },
-      { name: "高汤", category: "调料", amount: "1碗" }
-    ]
-  },
-  {
-    id: "winter-melon-duck-soup",
-    name: "冬瓜老鸭汤",
-    category: "汤",
-    time: 90,
-    tags: ["清润", "不辣", "汤"],
-    ingredients: [
-      { name: "老鸭", category: "肉类", amount: "半只" },
-      { name: "冬瓜", category: "蔬菜", amount: "1块" },
-      { name: "薏米", category: "干货", amount: "1小把" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "陈皮", category: "干货", amount: "1片" }
-    ]
-  },
-  {
-    id: "lotus-root-pork-rib-soup",
-    name: "莲藕排骨汤",
-    category: "汤",
-    time: 80,
-    tags: ["家常", "不辣", "汤"],
-    ingredients: [
-      { name: "排骨", category: "肉类", amount: "600g" },
-      { name: "莲藕", category: "蔬菜", amount: "2节" },
-      { name: "花生", category: "干货", amount: "1小把" },
-      { name: "红枣", category: "干货", amount: "6颗" },
-      { name: "姜", category: "调料", amount: "1块" }
-    ]
-  },
-  {
-    id: "carrot-corn-rib-soup",
-    name: "玉米胡萝卜排骨汤",
-    category: "汤",
-    time: 70,
-    tags: ["清甜", "不辣", "汤"],
-    ingredients: [
-      { name: "排骨", category: "肉类", amount: "600g" },
-      { name: "玉米", category: "蔬菜", amount: "1根" },
-      { name: "胡萝卜", category: "蔬菜", amount: "1根" },
-      { name: "马蹄", category: "蔬菜", amount: "6个" },
-      { name: "姜", category: "调料", amount: "1块" }
-    ]
-  },
-  {
-    id: "braised-pork-belly-taro",
-    name: "芋头焖五花肉",
-    category: "焖菜",
-    time: 60,
-    tags: ["香糯", "下饭"],
-    ingredients: [
-      { name: "五花肉", category: "肉类", amount: "500g" },
-      { name: "芋头", category: "蔬菜", amount: "600g" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "蒜", category: "调料", amount: "5瓣" },
-      { name: "南乳", category: "调料", amount: "2块" }
-    ]
-  },
-  {
-    id: "bitter-melon-beef",
-    name: "苦瓜炒牛肉",
-    category: "小炒",
-    time: 25,
-    tags: ["快手", "下饭"],
-    ingredients: [
-      { name: "牛肉", category: "肉类", amount: "300g" },
-      { name: "苦瓜", category: "蔬菜", amount: "1根" },
-      { name: "蒜", category: "调料", amount: "4瓣" },
-      { name: "豆豉", category: "调料", amount: "少许" },
-      { name: "淀粉", category: "粮油", amount: "少许" }
-    ]
-  },
-  {
-    id: "ginger-scallion-beef",
-    name: "姜葱炒牛肉",
-    category: "小炒",
-    time: 18,
-    tags: ["快手", "下饭"],
-    ingredients: [
-      { name: "牛肉", category: "肉类", amount: "350g" },
-      { name: "姜", category: "调料", amount: "1大块" },
-      { name: "小葱", category: "调料", amount: "1把" },
-      { name: "洋葱", category: "蔬菜", amount: "半个" },
-      { name: "生抽", category: "调料", amount: "少许" }
-    ]
-  },
-  {
-    id: "steamed-chicken-mushroom",
-    name: "香菇蒸鸡",
-    category: "蒸菜",
-    time: 35,
-    tags: ["家常", "不辣", "下饭"],
-    ingredients: [
-      { name: "鸡肉", category: "肉类", amount: "半只" },
-      { name: "香菇", category: "蔬菜", amount: "8朵" },
-      { name: "红枣", category: "干货", amount: "6颗" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "生抽", category: "调料", amount: "少许" }
-    ]
-  },
-  {
-    id: "soy-sauce-chicken-wings",
-    name: "豉油鸡翅",
-    category: "广东家常",
-    time: 30,
-    tags: ["小孩爱吃", "不辣"],
-    ingredients: [
-      { name: "鸡翅", category: "肉类", amount: "10只" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "小葱", category: "调料", amount: "1把" },
-      { name: "生抽", category: "调料", amount: "适量" },
-      { name: "冰糖", category: "调料", amount: "少许" }
-    ]
-  },
-  {
-    id: "steamed-pork-patty-salted-fish",
-    name: "咸鱼蒸肉饼",
-    category: "蒸菜",
-    time: 28,
-    tags: ["下饭", "咸香"],
-    ingredients: [
-      { name: "猪肉末", category: "肉类", amount: "350g" },
-      { name: "咸鱼", category: "水产", amount: "1小块" },
-      { name: "马蹄", category: "蔬菜", amount: "5个" },
-      { name: "小葱", category: "调料", amount: "1把" },
-      { name: "生抽", category: "调料", amount: "少许" }
-    ]
-  },
-  {
-    id: "preserved-egg-lean-pork-congee",
-    name: "皮蛋瘦肉粥",
-    category: "主食",
-    time: 50,
-    tags: ["清淡", "早餐", "不辣"],
-    ingredients: [
-      { name: "大米", category: "粮油", amount: "1杯" },
-      { name: "瘦肉", category: "肉类", amount: "200g" },
-      { name: "皮蛋", category: "蛋奶", amount: "2个" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "小葱", category: "调料", amount: "1把" }
-    ]
-  },
-  {
-    id: "claypot-rice-sausage",
-    name: "腊味煲仔饭",
-    category: "主食",
-    time: 45,
-    tags: ["主食", "香口"],
-    ingredients: [
-      { name: "大米", category: "粮油", amount: "2杯" },
-      { name: "腊肠", category: "肉类", amount: "2根" },
-      { name: "腊肉", category: "肉类", amount: "1块" },
-      { name: "菜心", category: "蔬菜", amount: "半斤" },
-      { name: "煲仔饭酱油", category: "调料", amount: "少许" }
-    ]
-  },
-  {
-    id: "roast-goose",
-    name: "烧鹅",
-    category: "烧味",
-    time: 20,
-    tags: ["经典", "硬菜"],
-    ingredients: [
-      { name: "烧鹅", category: "熟食", amount: "半只" },
-      { name: "酸梅酱", category: "调料", amount: "少许" },
-      { name: "青瓜", category: "蔬菜", amount: "1根" }
-    ]
-  },
-  {
-    id: "char-siu",
-    name: "叉烧",
-    category: "烧味",
-    time: 20,
-    tags: ["经典", "下饭"],
-    ingredients: [
-      { name: "叉烧", category: "熟食", amount: "1斤" },
-      { name: "生菜", category: "蔬菜", amount: "1颗" },
-      { name: "叉烧汁", category: "调料", amount: "少许" }
-    ]
-  },
-  {
-    id: "soy-sauce-chicken",
-    name: "豉油鸡",
-    category: "广东家常",
-    time: 45,
-    tags: ["不辣", "经典"],
-    ingredients: [
-      { name: "鸡", category: "肉类", amount: "1只" },
-      { name: "生抽", category: "调料", amount: "适量" },
-      { name: "老抽", category: "调料", amount: "少许" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "小葱", category: "调料", amount: "1把" }
-    ]
-  },
-  {
-    id: "crispy-roast-pork",
-    name: "脆皮烧肉",
-    category: "烧味",
-    time: 20,
-    tags: ["香口", "下饭"],
-    ingredients: [
-      { name: "烧肉", category: "熟食", amount: "1斤" },
-      { name: "芥辣", category: "调料", amount: "少许" },
-      { name: "生菜", category: "蔬菜", amount: "1颗" }
-    ]
-  },
-  {
-    id: "steamed-scallop-vermicelli",
-    name: "蒜蓉粉丝蒸扇贝",
-    category: "海鲜",
-    time: 25,
-    tags: ["鲜香", "不辣"],
-    ingredients: [
-      { name: "扇贝", category: "水产", amount: "8只" },
-      { name: "粉丝", category: "粮油", amount: "1把" },
-      { name: "蒜", category: "调料", amount: "1头" },
-      { name: "小葱", category: "调料", amount: "1把" }
-    ]
-  },
-  {
-    id: "black-bean-steamed-eel",
-    name: "豉汁蒸鳗鱼",
-    category: "海鲜",
-    time: 30,
-    tags: ["鲜香", "下饭"],
-    ingredients: [
-      { name: "鳗鱼", category: "水产", amount: "1条" },
-      { name: "豆豉", category: "调料", amount: "1勺" },
-      { name: "蒜", category: "调料", amount: "5瓣" },
-      { name: "姜", category: "调料", amount: "1块" }
-    ]
-  },
-  {
-    id: "stir-fried-clams",
-    name: "豉椒炒花甲",
-    category: "海鲜",
-    time: 20,
-    tags: ["快手", "鲜香"],
-    ingredients: [
-      { name: "花甲", category: "水产", amount: "1斤" },
-      { name: "青椒", category: "蔬菜", amount: "2个" },
-      { name: "豆豉", category: "调料", amount: "1勺" },
-      { name: "蒜", category: "调料", amount: "5瓣" }
-    ]
-  },
-  {
-    id: "ginger-scallion-crab",
-    name: "姜葱炒蟹",
-    category: "海鲜",
-    time: 35,
-    tags: ["硬菜", "鲜香"],
-    ingredients: [
-      { name: "螃蟹", category: "水产", amount: "2只" },
-      { name: "姜", category: "调料", amount: "1大块" },
-      { name: "小葱", category: "调料", amount: "1把" },
-      { name: "淀粉", category: "粮油", amount: "少许" }
-    ]
-  },
-  {
-    id: "salt-pepper-shrimp",
-    name: "椒盐虾",
-    category: "海鲜",
-    time: 25,
-    tags: ["香口", "下饭"],
-    ingredients: [
-      { name: "鲜虾", category: "水产", amount: "1斤" },
-      { name: "椒盐", category: "调料", amount: "少许" },
-      { name: "蒜", category: "调料", amount: "1头" },
-      { name: "青椒", category: "蔬菜", amount: "1个" }
-    ]
-  },
-  {
-    id: "salt-pepper-squid",
-    name: "椒盐鱿鱼",
-    category: "海鲜",
-    time: 25,
-    tags: ["香口", "下饭"],
-    ingredients: [
-      { name: "鱿鱼", category: "水产", amount: "1斤" },
-      { name: "椒盐", category: "调料", amount: "少许" },
-      { name: "蒜", category: "调料", amount: "1头" },
-      { name: "淀粉", category: "粮油", amount: "适量" }
-    ]
-  },
-  {
-    id: "fish-head-tofu-pot",
-    name: "鱼头豆腐煲",
-    category: "煲仔菜",
-    time: 45,
-    tags: ["热乎", "下饭"],
-    ingredients: [
-      { name: "鱼头", category: "水产", amount: "1个" },
-      { name: "豆腐", category: "豆制品", amount: "2块" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "小葱", category: "调料", amount: "1把" }
-    ]
-  },
-  {
-    id: "eggplant-minced-pork",
-    name: "肉末茄子",
-    category: "小炒",
-    time: 25,
-    tags: ["下饭", "家常"],
-    ingredients: [
-      { name: "茄子", category: "蔬菜", amount: "2根" },
-      { name: "猪肉末", category: "肉类", amount: "200g" },
-      { name: "蒜", category: "调料", amount: "5瓣" },
-      { name: "生抽", category: "调料", amount: "少许" }
-    ]
-  },
-  {
-    id: "salted-fish-eggplant-pot",
-    name: "咸鱼茄子煲",
-    category: "煲仔菜",
-    time: 35,
-    tags: ["咸香", "下饭"],
-    ingredients: [
-      { name: "茄子", category: "蔬菜", amount: "2根" },
-      { name: "咸鱼", category: "水产", amount: "1小块" },
-      { name: "猪肉末", category: "肉类", amount: "150g" },
-      { name: "蒜", category: "调料", amount: "5瓣" }
-    ]
-  },
-  {
-    id: "taro-duck-pot",
-    name: "芋头鸭煲",
-    category: "煲仔菜",
-    time: 70,
-    tags: ["香糯", "硬菜"],
-    ingredients: [
-      { name: "鸭肉", category: "肉类", amount: "半只" },
-      { name: "芋头", category: "蔬菜", amount: "600g" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "柱侯酱", category: "调料", amount: "少许" }
-    ]
-  },
-  {
-    id: "lotus-root-pork-patty",
-    name: "莲藕蒸肉饼",
-    category: "蒸菜",
-    time: 30,
-    tags: ["家常", "不辣"],
-    ingredients: [
-      { name: "猪肉末", category: "肉类", amount: "350g" },
-      { name: "莲藕", category: "蔬菜", amount: "1节" },
-      { name: "小葱", category: "调料", amount: "1把" },
-      { name: "生抽", category: "调料", amount: "少许" }
-    ]
-  },
-  {
-    id: "dried-squid-pork-patty",
-    name: "鱿鱼干蒸肉饼",
-    category: "蒸菜",
-    time: 30,
-    tags: ["咸香", "下饭"],
-    ingredients: [
-      { name: "猪肉末", category: "肉类", amount: "350g" },
-      { name: "鱿鱼干", category: "干货", amount: "半只" },
-      { name: "马蹄", category: "蔬菜", amount: "5个" },
-      { name: "小葱", category: "调料", amount: "1把" }
-    ]
-  },
-  {
-    id: "salted-egg-pork-patty",
-    name: "咸蛋蒸肉饼",
-    category: "蒸菜",
-    time: 28,
-    tags: ["家常", "下饭"],
-    ingredients: [
-      { name: "猪肉末", category: "肉类", amount: "350g" },
-      { name: "咸蛋", category: "蛋奶", amount: "2个" },
-      { name: "小葱", category: "调料", amount: "1把" },
-      { name: "生抽", category: "调料", amount: "少许" }
-    ]
-  },
-  {
-    id: "dried-scallop-winter-melon-soup",
-    name: "瑶柱冬瓜汤",
-    category: "汤",
-    time: 60,
-    tags: ["清淡", "汤"],
-    ingredients: [
-      { name: "冬瓜", category: "蔬菜", amount: "1块" },
-      { name: "瑶柱", category: "干货", amount: "1小把" },
-      { name: "猪骨", category: "肉类", amount: "400g" },
-      { name: "姜", category: "调料", amount: "1块" }
-    ]
-  },
-  {
-    id: "papaya-fish-soup",
-    name: "木瓜鲫鱼汤",
-    category: "汤",
-    time: 60,
-    tags: ["清甜", "汤"],
-    ingredients: [
-      { name: "鲫鱼", category: "水产", amount: "1条" },
-      { name: "木瓜", category: "水果", amount: "半个" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "瘦肉", category: "肉类", amount: "150g" }
-    ]
-  },
-  {
-    id: "watercress-pork-bone-soup",
-    name: "西洋菜猪骨汤",
-    category: "汤",
-    time: 80,
-    tags: ["清润", "汤"],
-    ingredients: [
-      { name: "西洋菜", category: "蔬菜", amount: "1把" },
-      { name: "猪骨", category: "肉类", amount: "600g" },
-      { name: "蜜枣", category: "干货", amount: "2颗" },
-      { name: "姜", category: "调料", amount: "1块" }
-    ]
-  },
-  {
-    id: "kudzu-pork-bone-soup",
-    name: "粉葛猪骨汤",
-    category: "汤",
-    time: 90,
-    tags: ["清润", "汤"],
-    ingredients: [
-      { name: "粉葛", category: "蔬菜", amount: "1个" },
-      { name: "猪骨", category: "肉类", amount: "600g" },
-      { name: "赤小豆", category: "干货", amount: "1小把" },
-      { name: "陈皮", category: "干货", amount: "1片" }
-    ]
-  },
-  {
-    id: "chayote-pork-bone-soup",
-    name: "合掌瓜猪骨汤",
-    category: "汤",
-    time: 75,
-    tags: ["清甜", "汤"],
-    ingredients: [
-      { name: "合掌瓜", category: "蔬菜", amount: "2个" },
-      { name: "猪骨", category: "肉类", amount: "600g" },
-      { name: "胡萝卜", category: "蔬菜", amount: "1根" },
-      { name: "姜", category: "调料", amount: "1块" }
-    ]
-  },
-  {
-    id: "seaweed-egg-soup",
-    name: "紫菜蛋花汤",
-    category: "汤",
-    time: 12,
-    tags: ["快手", "汤"],
-    ingredients: [
-      { name: "紫菜", category: "干货", amount: "1片" },
-      { name: "鸡蛋", category: "蛋奶", amount: "2个" },
-      { name: "虾皮", category: "干货", amount: "少许" },
-      { name: "小葱", category: "调料", amount: "1把" }
-    ]
-  },
-  {
-    id: "tomato-potato-beef-soup",
-    name: "番茄土豆牛肉汤",
-    category: "汤",
-    time: 70,
-    tags: ["家常", "汤"],
-    ingredients: [
-      { name: "牛肉", category: "肉类", amount: "400g" },
-      { name: "番茄", category: "蔬菜", amount: "3个" },
-      { name: "土豆", category: "蔬菜", amount: "2个" },
-      { name: "姜", category: "调料", amount: "1块" }
-    ]
-  },
-  {
-    id: "dace-lettuce",
-    name: "豆豉鲮鱼油麦菜",
-    category: "青菜",
-    time: 15,
-    tags: ["快手", "下饭"],
-    ingredients: [
-      { name: "油麦菜", category: "蔬菜", amount: "1斤" },
-      { name: "豆豉鲮鱼罐头", category: "罐头", amount: "1罐" },
-      { name: "蒜", category: "调料", amount: "5瓣" }
-    ]
-  },
-  {
-    id: "choy-sum-beef",
-    name: "菜心炒牛肉",
-    category: "小炒",
-    time: 20,
-    tags: ["快手", "家常"],
-    ingredients: [
-      { name: "菜心", category: "蔬菜", amount: "1斤" },
-      { name: "牛肉", category: "肉类", amount: "300g" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "淀粉", category: "粮油", amount: "少许" }
-    ]
-  },
-  {
-    id: "oyster-broccoli",
-    name: "蚝油西兰花",
-    category: "青菜",
-    time: 15,
-    tags: ["清淡", "快手"],
-    ingredients: [
-      { name: "西兰花", category: "蔬菜", amount: "1颗" },
-      { name: "蒜", category: "调料", amount: "5瓣" },
-      { name: "蚝油", category: "调料", amount: "少许" }
-    ]
-  },
-  {
-    id: "garlic-spinach",
-    name: "蒜蓉菠菜",
-    category: "青菜",
-    time: 10,
-    tags: ["快手", "清淡"],
-    ingredients: [
-      { name: "菠菜", category: "蔬菜", amount: "1斤" },
-      { name: "蒜", category: "调料", amount: "5瓣" },
-      { name: "花生油", category: "粮油", amount: "少许" }
-    ]
-  },
-  {
-    id: "preserved-egg-amaranth",
-    name: "皮蛋苋菜",
-    category: "青菜",
-    time: 18,
-    tags: ["家常", "清淡"],
-    ingredients: [
-      { name: "苋菜", category: "蔬菜", amount: "1斤" },
-      { name: "皮蛋", category: "蛋奶", amount: "1个" },
-      { name: "蒜", category: "调料", amount: "5瓣" }
-    ]
-  },
-  {
-    id: "garlic-cabbage",
-    name: "蒜蓉炒包菜",
-    category: "青菜",
-    time: 12,
-    tags: ["快手", "家常"],
-    ingredients: [
-      { name: "包菜", category: "蔬菜", amount: "1颗" },
-      { name: "蒜", category: "调料", amount: "5瓣" },
-      { name: "蚝油", category: "调料", amount: "少许" }
-    ]
-  },
-  {
-    id: "fried-tofu-pork",
-    name: "豆腐泡焖猪肉",
-    category: "豆腐",
-    time: 35,
-    tags: ["下饭", "家常"],
-    ingredients: [
-      { name: "豆腐泡", category: "豆制品", amount: "300g" },
-      { name: "五花肉", category: "肉类", amount: "300g" },
-      { name: "蒜", category: "调料", amount: "5瓣" },
-      { name: "生抽", category: "调料", amount: "少许" }
-    ]
-  },
-  {
-    id: "braised-tofu-fish",
-    name: "鱼香豆腐煲",
-    category: "豆腐",
-    time: 35,
-    tags: ["下饭", "热乎"],
-    ingredients: [
-      { name: "豆腐", category: "豆制品", amount: "2块" },
-      { name: "鱼肉", category: "水产", amount: "300g" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "小葱", category: "调料", amount: "1把" }
-    ]
-  },
-  {
-    id: "minced-pork-tofu",
-    name: "肉末豆腐",
-    category: "豆腐",
-    time: 18,
-    tags: ["快手", "下饭"],
-    ingredients: [
-      { name: "嫩豆腐", category: "豆制品", amount: "2盒" },
-      { name: "猪肉末", category: "肉类", amount: "200g" },
-      { name: "小葱", category: "调料", amount: "1把" }
-    ]
-  },
-  {
-    id: "steamed-tofu-shrimp",
-    name: "虾仁蒸豆腐",
-    category: "豆腐",
-    time: 20,
-    tags: ["清淡", "不辣"],
-    ingredients: [
-      { name: "嫩豆腐", category: "豆制品", amount: "2盒" },
-      { name: "虾仁", category: "水产", amount: "250g" },
-      { name: "鸡蛋", category: "蛋奶", amount: "1个" },
-      { name: "小葱", category: "调料", amount: "1把" }
-    ]
-  },
-  {
-    id: "shrimp-scrambled-egg",
-    name: "虾仁炒蛋",
-    category: "快手菜",
-    time: 15,
-    tags: ["快手", "小孩爱吃"],
-    ingredients: [
-      { name: "虾仁", category: "水产", amount: "250g" },
-      { name: "鸡蛋", category: "蛋奶", amount: "4个" },
-      { name: "小葱", category: "调料", amount: "1把" }
-    ]
-  },
-  {
-    id: "clam-steamed-egg",
-    name: "花甲蒸水蛋",
-    category: "蒸菜",
-    time: 22,
-    tags: ["鲜", "小孩爱吃"],
-    ingredients: [
-      { name: "花甲", category: "水产", amount: "300g" },
-      { name: "鸡蛋", category: "蛋奶", amount: "3个" },
-      { name: "小葱", category: "调料", amount: "1把" }
-    ]
-  },
-  {
-    id: "chive-scrambled-egg",
-    name: "韭菜炒蛋",
-    category: "快手菜",
-    time: 12,
-    tags: ["快手", "家常"],
-    ingredients: [
-      { name: "韭菜", category: "蔬菜", amount: "1把" },
-      { name: "鸡蛋", category: "蛋奶", amount: "4个" },
-      { name: "花生油", category: "粮油", amount: "少许" }
-    ]
-  },
-  {
-    id: "black-pepper-beef",
-    name: "黑椒牛肉",
-    category: "小炒",
-    time: 25,
-    tags: ["下饭", "香口"],
-    ingredients: [
-      { name: "牛肉", category: "肉类", amount: "350g" },
-      { name: "洋葱", category: "蔬菜", amount: "1个" },
-      { name: "黑椒汁", category: "调料", amount: "少许" }
-    ]
-  },
-  {
-    id: "satay-beef-vermicelli-pot",
-    name: "沙茶牛肉粉丝煲",
-    category: "煲仔菜",
-    time: 30,
-    tags: ["热乎", "下饭"],
-    ingredients: [
-      { name: "牛肉", category: "肉类", amount: "350g" },
-      { name: "粉丝", category: "粮油", amount: "1把" },
-      { name: "沙茶酱", category: "调料", amount: "少许" },
-      { name: "洋葱", category: "蔬菜", amount: "半个" }
-    ]
-  },
-  {
-    id: "bitter-melon-egg",
-    name: "苦瓜炒蛋",
-    category: "快手菜",
-    time: 15,
-    tags: ["快手", "清爽"],
-    ingredients: [
-      { name: "苦瓜", category: "蔬菜", amount: "1根" },
-      { name: "鸡蛋", category: "蛋奶", amount: "4个" },
-      { name: "蒜", category: "调料", amount: "3瓣" }
-    ]
-  },
-  {
-    id: "loofah-scrambled-egg",
-    name: "丝瓜炒蛋",
-    category: "快手菜",
-    time: 15,
-    tags: ["清淡", "快手"],
-    ingredients: [
-      { name: "丝瓜", category: "蔬菜", amount: "2根" },
-      { name: "鸡蛋", category: "蛋奶", amount: "4个" },
-      { name: "蒜", category: "调料", amount: "3瓣" }
-    ]
-  },
-  {
-    id: "loofah-clam-soup",
-    name: "丝瓜花甲汤",
-    category: "汤",
-    time: 20,
-    tags: ["快手", "清甜"],
-    ingredients: [
-      { name: "丝瓜", category: "蔬菜", amount: "2根" },
-      { name: "花甲", category: "水产", amount: "400g" },
-      { name: "姜", category: "调料", amount: "1块" }
-    ]
-  },
-  {
-    id: "lotus-root-snow-peas",
-    name: "荷兰豆炒莲藕",
-    category: "青菜",
-    time: 18,
-    tags: ["清爽", "快手"],
-    ingredients: [
-      { name: "荷兰豆", category: "蔬菜", amount: "300g" },
-      { name: "莲藕", category: "蔬菜", amount: "1节" },
-      { name: "蒜", category: "调料", amount: "5瓣" }
-    ]
-  },
-  {
-    id: "braised-pomfret",
-    name: "红烧鲳鱼",
-    category: "海鲜",
-    time: 30,
-    tags: ["家常", "下饭"],
-    ingredients: [
-      { name: "鲳鱼", category: "水产", amount: "1条" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "小葱", category: "调料", amount: "1把" },
-      { name: "生抽", category: "调料", amount: "少许" }
-    ]
-  },
-  {
-    id: "pan-fried-mackerel",
-    name: "香煎马鲛鱼",
-    category: "海鲜",
-    time: 20,
-    tags: ["香口", "快手"],
-    ingredients: [
-      { name: "马鲛鱼", category: "水产", amount: "4块" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "花生油", category: "粮油", amount: "少许" }
-    ]
-  },
-  {
-    id: "steamed-grouper",
-    name: "清蒸石斑鱼",
-    category: "海鲜",
-    time: 25,
-    tags: ["清淡", "鲜"],
-    ingredients: [
-      { name: "石斑鱼", category: "水产", amount: "1条" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "小葱", category: "调料", amount: "1把" },
-      { name: "蒸鱼豉油", category: "调料", amount: "少许" }
-    ]
-  },
-  {
-    id: "seafood-tofu-pot",
-    name: "海鲜豆腐煲",
-    category: "煲仔菜",
-    time: 35,
-    tags: ["热乎", "鲜"],
-    ingredients: [
-      { name: "豆腐", category: "豆制品", amount: "2块" },
-      { name: "虾仁", category: "水产", amount: "200g" },
-      { name: "鱿鱼", category: "水产", amount: "200g" },
-      { name: "香菇", category: "蔬菜", amount: "6朵" }
-    ]
-  },
-  {
-    id: "pork-liver-congee",
-    name: "猪肝粥",
-    category: "主食",
-    time: 45,
-    tags: ["早餐", "清淡"],
-    ingredients: [
-      { name: "大米", category: "粮油", amount: "1杯" },
-      { name: "猪肝", category: "肉类", amount: "250g" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "小葱", category: "调料", amount: "1把" }
-    ]
-  },
-  {
-    id: "yangzhou-fried-rice",
-    name: "扬州炒饭",
-    category: "主食",
-    time: 20,
-    tags: ["快手", "主食"],
-    ingredients: [
-      { name: "米饭", category: "粮油", amount: "3碗" },
-      { name: "鸡蛋", category: "蛋奶", amount: "3个" },
-      { name: "虾仁", category: "水产", amount: "150g" },
-      { name: "火腿", category: "肉类", amount: "100g" }
-    ]
-  },
-  {
-    id: "dry-fried-beef-hor-fun",
-    name: "干炒牛河",
-    category: "粉面",
-    time: 25,
-    tags: ["主食", "香口"],
-    ingredients: [
-      { name: "河粉", category: "粮油", amount: "1斤" },
-      { name: "牛肉", category: "肉类", amount: "300g" },
-      { name: "豆芽", category: "蔬菜", amount: "200g" },
-      { name: "韭黄", category: "蔬菜", amount: "1把" }
-    ]
-  },
-  {
-    id: "wonton-noodles",
-    name: "云吞面",
-    category: "粉面",
-    time: 25,
-    tags: ["主食", "汤面"],
-    ingredients: [
-      { name: "云吞", category: "速食", amount: "20个" },
-      { name: "竹升面", category: "粮油", amount: "4份" },
-      { name: "青菜", category: "蔬菜", amount: "半斤" },
-      { name: "高汤", category: "调料", amount: "适量" }
-    ]
-  },
-  {
-    id: "soy-sauce-chow-mein",
-    name: "豉油皇炒面",
-    category: "粉面",
-    time: 20,
-    tags: ["主食", "快手"],
-    ingredients: [
-      { name: "鸡蛋面", category: "粮油", amount: "1斤" },
-      { name: "豆芽", category: "蔬菜", amount: "200g" },
-      { name: "韭黄", category: "蔬菜", amount: "1把" },
-      { name: "生抽", category: "调料", amount: "少许" }
-    ]
-  },
-  {
-    id: "oyster-congee",
-    name: "蚝仔粥",
-    category: "主食",
-    time: 45,
-    tags: ["鲜", "主食"],
-    ingredients: [
-      { name: "大米", category: "粮油", amount: "1杯" },
-      { name: "蚝仔", category: "水产", amount: "300g" },
-      { name: "姜", category: "调料", amount: "1块" },
-      { name: "小葱", category: "调料", amount: "1把" }
-    ]
-  }
+  dish("scrambled-egg-tomato", "番茄炒蛋", gd, "粤式快手小炒", 12, ["快手", "不辣", "小孩爱吃"], [
+    ingredient("番茄", "蔬菜", "3个"),
+    ingredient("鸡蛋", "蛋奶", "4个"),
+    ingredient("小葱", "调料", "1把"),
+    ingredient("白糖", "调料", "少许"),
+    ingredient("花生油", "粮油", "少许")
+  ]),
+  dish("bitter-melon-egg", "苦瓜炒蛋", gd, "粤式快手小炒", 15, ["快手", "清爽", "不辣"], [
+    ingredient("苦瓜", "蔬菜", "1根"),
+    ingredient("鸡蛋", "蛋奶", "4个"),
+    ingredient("蒜", "调料", "3瓣"),
+    ingredient("花生油", "粮油", "少许")
+  ]),
+  dish("loofah-scrambled-egg", "丝瓜炒蛋", gd, "粤式快手小炒", 15, ["清淡", "快手", "不辣"], [
+    ingredient("丝瓜", "蔬菜", "2根"),
+    ingredient("鸡蛋", "蛋奶", "4个"),
+    ingredient("蒜", "调料", "3瓣"),
+    ingredient("花生油", "粮油", "少许")
+  ]),
+  dish("shrimp-scrambled-egg", "虾仁炒蛋", gd, "粤式快手小炒", 15, ["快手", "鲜香", "小孩爱吃"], [
+    ingredient("虾仁", "水产", "250g"),
+    ingredient("鸡蛋", "蛋奶", "4个"),
+    ingredient("小葱", "调料", "1把"),
+    ingredient("白胡椒粉", "调料", "少许")
+  ]),
+  dish("chive-scrambled-egg", "韭菜炒蛋", gd, "粤式快手小炒", 12, ["快手", "家常", "不辣"], [
+    ingredient("韭菜", "蔬菜", "1把"),
+    ingredient("鸡蛋", "蛋奶", "4个"),
+    ingredient("花生油", "粮油", "少许")
+  ]),
+  dish("choy-sum-beef", "菜心炒牛肉", gd, "粤式快手小炒", 20, ["快手", "家常", "下饭"], [
+    ingredient("菜心", "蔬菜", "1斤"),
+    ingredient("牛肉", "肉类", "300g"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("淀粉", "粮油", "少许")
+  ]),
+  dish("ginger-scallion-beef", "姜葱炒牛肉", gd, "粤式快手小炒", 18, ["快手", "下饭", "香口"], [
+    ingredient("牛肉", "肉类", "350g"),
+    ingredient("姜", "调料", "1大块"),
+    ingredient("小葱", "调料", "1把"),
+    ingredient("洋葱", "蔬菜", "半个"),
+    ingredient("生抽", "调料", "少许")
+  ]),
+  dish("bitter-melon-beef", "苦瓜炒牛肉", gd, "粤式快手小炒", 25, ["快手", "下饭", "家常"], [
+    ingredient("牛肉", "肉类", "300g"),
+    ingredient("苦瓜", "蔬菜", "1根"),
+    ingredient("蒜", "调料", "4瓣"),
+    ingredient("豆豉", "调料", "少许"),
+    ingredient("淀粉", "粮油", "少许")
+  ]),
+  dish("tomato-beef", "番茄牛肉", gd, "粤式快手小炒", 35, ["下饭", "不辣", "家常"], [
+    ingredient("牛肉", "肉类", "350g"),
+    ingredient("番茄", "蔬菜", "3个"),
+    ingredient("洋葱", "蔬菜", "半个"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("生抽", "调料", "少许")
+  ]),
+  dish("eggplant-minced-pork", "肉末茄子", gd, "粤式快手小炒", 25, ["下饭", "家常"], [
+    ingredient("茄子", "蔬菜", "2根"),
+    ingredient("猪肉末", "肉类", "200g"),
+    ingredient("蒜", "调料", "5瓣"),
+    ingredient("生抽", "调料", "少许")
+  ]),
+
+  dish("steamed-sea-bass", "清蒸鲈鱼", gd, "粤式蒸菜", 25, ["清淡", "不辣", "鲜"], [
+    ingredient("鲈鱼", "水产", "1条"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("小葱", "调料", "1把"),
+    ingredient("蒸鱼豉油", "调料", "少许"),
+    ingredient("花生油", "粮油", "少许")
+  ]),
+  dish("black-bean-steamed-ribs", "豉汁蒸排骨", gd, "粤式蒸菜", 35, ["下饭", "不辣", "家常"], [
+    ingredient("排骨", "肉类", "500g"),
+    ingredient("豆豉", "调料", "1勺"),
+    ingredient("蒜", "调料", "5瓣"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("淀粉", "粮油", "少许")
+  ]),
+  dish("steamed-minced-pork-egg", "肉末蒸水蛋", gd, "粤式蒸菜", 18, ["快手", "不辣", "小孩爱吃"], [
+    ingredient("鸡蛋", "蛋奶", "4个"),
+    ingredient("猪肉末", "肉类", "150g"),
+    ingredient("小葱", "调料", "1把"),
+    ingredient("生抽", "调料", "少许"),
+    ingredient("香油", "粮油", "少许")
+  ]),
+  dish("steamed-chicken-mushroom", "香菇蒸鸡", gd, "粤式蒸菜", 35, ["家常", "不辣", "下饭"], [
+    ingredient("鸡肉", "肉类", "半只"),
+    ingredient("香菇", "蔬菜", "8朵"),
+    ingredient("红枣", "干货", "6颗"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("生抽", "调料", "少许")
+  ]),
+  dish("salted-egg-pork-patty", "咸蛋蒸肉饼", gd, "粤式蒸菜", 28, ["家常", "下饭", "不辣"], [
+    ingredient("猪肉末", "肉类", "350g"),
+    ingredient("咸蛋", "蛋奶", "2个"),
+    ingredient("小葱", "调料", "1把"),
+    ingredient("生抽", "调料", "少许")
+  ]),
+  dish("lotus-root-pork-patty", "莲藕蒸肉饼", gd, "粤式蒸菜", 30, ["家常", "不辣"], [
+    ingredient("猪肉末", "肉类", "350g"),
+    ingredient("莲藕", "蔬菜", "1节"),
+    ingredient("小葱", "调料", "1把"),
+    ingredient("生抽", "调料", "少许")
+  ]),
+  dish("steamed-pork-patty-salted-fish", "咸鱼蒸肉饼", gd, "粤式蒸菜", 28, ["下饭", "咸香"], [
+    ingredient("猪肉末", "肉类", "350g"),
+    ingredient("咸鱼", "水产", "1小块"),
+    ingredient("马蹄", "蔬菜", "5个"),
+    ingredient("小葱", "调料", "1把"),
+    ingredient("生抽", "调料", "少许")
+  ]),
+  dish("steamed-garlic-shrimp", "蒜蓉粉丝蒸虾", gd, "粤式蒸菜", 28, ["鲜香", "不辣"], [
+    ingredient("鲜虾", "水产", "500g"),
+    ingredient("粉丝", "粮油", "1把"),
+    ingredient("蒜", "调料", "1头"),
+    ingredient("小葱", "调料", "1把"),
+    ingredient("蒸鱼豉油", "调料", "少许")
+  ]),
+  dish("clam-steamed-egg", "花甲蒸水蛋", gd, "粤式蒸菜", 22, ["鲜", "小孩爱吃", "不辣"], [
+    ingredient("花甲", "水产", "300g"),
+    ingredient("鸡蛋", "蛋奶", "3个"),
+    ingredient("小葱", "调料", "1把"),
+    ingredient("姜", "调料", "1块")
+  ]),
+  dish("dried-scallop-steamed-egg", "瑶柱蒸水蛋", gd, "粤式蒸菜", 20, ["清淡", "鲜", "不辣"], [
+    ingredient("鸡蛋", "蛋奶", "4个"),
+    ingredient("瑶柱", "干货", "1小把"),
+    ingredient("小葱", "调料", "1把"),
+    ingredient("生抽", "调料", "少许")
+  ]),
+
+  dish("cantonese-poached-chicken", "白切鸡", gd, "粤式肉禽", 50, ["经典", "不辣", "清爽"], [
+    ingredient("三黄鸡", "肉类", "1只"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("小葱", "调料", "1把"),
+    ingredient("沙姜", "调料", "少许"),
+    ingredient("花生油", "粮油", "少许")
+  ]),
+  dish("soy-sauce-chicken", "豉油鸡", gd, "粤式肉禽", 45, ["不辣", "经典"], [
+    ingredient("鸡", "肉类", "1只"),
+    ingredient("生抽", "调料", "适量"),
+    ingredient("老抽", "调料", "少许"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("小葱", "调料", "1把")
+  ]),
+  dish("soy-sauce-chicken-wings", "豉油鸡翅", gd, "粤式肉禽", 30, ["小孩爱吃", "不辣"], [
+    ingredient("鸡翅", "肉类", "10只"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("小葱", "调料", "1把"),
+    ingredient("生抽", "调料", "适量"),
+    ingredient("冰糖", "调料", "少许")
+  ]),
+  dish("claypot-chicken", "啫啫鸡煲", gd, "粤式肉禽", 40, ["香口", "下饭"], [
+    ingredient("鸡腿肉", "肉类", "600g"),
+    ingredient("洋葱", "蔬菜", "1个"),
+    ingredient("姜", "调料", "1大块"),
+    ingredient("蒜", "调料", "1头"),
+    ingredient("柱侯酱", "调料", "少许")
+  ]),
+  dish("potato-braised-chicken", "土豆焖鸡", gd, "粤式肉禽", 35, ["家常", "下饭", "不辣"], [
+    ingredient("鸡肉", "肉类", "半只"),
+    ingredient("土豆", "蔬菜", "2个"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("蒜", "调料", "5瓣"),
+    ingredient("生抽", "调料", "少许")
+  ]),
+  dish("beef-brisket-radish", "萝卜焖牛腩", gd, "粤式肉禽", 90, ["硬菜", "下饭", "不辣"], [
+    ingredient("牛腩", "肉类", "700g"),
+    ingredient("白萝卜", "蔬菜", "1根"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("柱侯酱", "调料", "少许"),
+    ingredient("八角", "调料", "2个")
+  ]),
+  dish("sweet-sour-ribs", "酸甜排骨", gd, "粤式肉禽", 45, ["酸甜", "下饭", "小孩爱吃"], [
+    ingredient("排骨", "肉类", "600g"),
+    ingredient("番茄酱", "调料", "适量"),
+    ingredient("冰糖", "调料", "少许"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("白醋", "调料", "少许")
+  ]),
+  dish("pork-ribs-potato", "土豆焖排骨", gd, "粤式肉禽", 45, ["家常", "下饭"], [
+    ingredient("排骨", "肉类", "600g"),
+    ingredient("土豆", "蔬菜", "2个"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("蒜", "调料", "5瓣"),
+    ingredient("生抽", "调料", "少许")
+  ]),
+  dish("nam-yu-pork-trotter", "南乳焖猪手", gd, "粤式肉禽", 80, ["硬菜", "下饭", "香口"], [
+    ingredient("猪手", "肉类", "1只"),
+    ingredient("南乳", "调料", "2块"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("蒜", "调料", "5瓣"),
+    ingredient("冰糖", "调料", "少许")
+  ]),
+  dish("oyster-sauce-beef", "蚝油牛肉", gd, "粤式肉禽", 25, ["快手", "下饭", "家常"], [
+    ingredient("牛肉", "肉类", "350g"),
+    ingredient("蚝油", "调料", "少许"),
+    ingredient("洋葱", "蔬菜", "半个"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("淀粉", "粮油", "少许")
+  ]),
+
+  dish("poached-shrimp", "白灼虾", gd, "粤式鱼虾海鲜", 15, ["快手", "鲜", "不辣"], [
+    ingredient("鲜虾", "水产", "1斤"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("小葱", "调料", "1把"),
+    ingredient("生抽", "调料", "少许")
+  ]),
+  dish("stir-fried-clams", "豉椒炒花甲", gd, "粤式鱼虾海鲜", 20, ["快手", "鲜香"], [
+    ingredient("花甲", "水产", "1斤"),
+    ingredient("青椒", "蔬菜", "2个"),
+    ingredient("豆豉", "调料", "1勺"),
+    ingredient("蒜", "调料", "5瓣")
+  ]),
+  dish("braised-pomfret", "红烧鲳鱼", gd, "粤式鱼虾海鲜", 30, ["家常", "下饭"], [
+    ingredient("鲳鱼", "水产", "1条"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("小葱", "调料", "1把"),
+    ingredient("生抽", "调料", "少许")
+  ]),
+  dish("pan-fried-mackerel", "香煎马鲛鱼", gd, "粤式鱼虾海鲜", 20, ["香口", "快手"], [
+    ingredient("马鲛鱼", "水产", "4块"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("花生油", "粮油", "少许")
+  ]),
+  dish("black-bean-steamed-fish", "豉汁蒸鱼块", gd, "粤式鱼虾海鲜", 25, ["家常", "下饭", "鲜"], [
+    ingredient("鱼块", "水产", "500g"),
+    ingredient("豆豉", "调料", "1勺"),
+    ingredient("蒜", "调料", "5瓣"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("小葱", "调料", "1把")
+  ]),
+  dish("ginger-scallion-fish-fillet", "姜葱鱼片", gd, "粤式鱼虾海鲜", 20, ["快手", "鲜", "下饭"], [
+    ingredient("鱼片", "水产", "400g"),
+    ingredient("姜", "调料", "1大块"),
+    ingredient("小葱", "调料", "1把"),
+    ingredient("淀粉", "粮油", "少许")
+  ]),
+  dish("fish-head-tofu-pot", "鱼头豆腐煲", gd, "粤式鱼虾海鲜", 45, ["热乎", "下饭"], [
+    ingredient("鱼头", "水产", "1个"),
+    ingredient("豆腐", "豆制品", "2块"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("小葱", "调料", "1把")
+  ]),
+  dish("shrimp-tofu-pot", "虾仁豆腐煲", gd, "粤式鱼虾海鲜", 25, ["清淡", "鲜", "不辣"], [
+    ingredient("虾仁", "水产", "250g"),
+    ingredient("嫩豆腐", "豆制品", "2盒"),
+    ingredient("鸡蛋", "蛋奶", "1个"),
+    ingredient("小葱", "调料", "1把")
+  ]),
+  dish("tomato-fish-soup", "番茄鱼片汤", gd, "粤式鱼虾海鲜", 25, ["清爽", "鲜", "家常"], [
+    ingredient("鱼片", "水产", "400g"),
+    ingredient("番茄", "蔬菜", "3个"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("小葱", "调料", "1把")
+  ]),
+  dish("loofah-clam-soup", "丝瓜花甲汤", gd, "粤式鱼虾海鲜", 20, ["快手", "清甜", "鲜"], [
+    ingredient("丝瓜", "蔬菜", "2根"),
+    ingredient("花甲", "水产", "400g"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("小葱", "调料", "1把")
+  ]),
+
+  dish("garlic-choy-sum", "蒜蓉菜心", gd, "粤式青菜豆腐", 12, ["快手", "清淡", "不辣"], [
+    ingredient("菜心", "蔬菜", "1斤"),
+    ingredient("蒜", "调料", "6瓣"),
+    ingredient("蚝油", "调料", "少许"),
+    ingredient("花生油", "粮油", "少许")
+  ]),
+  dish("lettuce-oyster-sauce", "蚝油生菜", gd, "粤式青菜豆腐", 10, ["快手", "清淡", "不辣"], [
+    ingredient("生菜", "蔬菜", "2颗"),
+    ingredient("蒜", "调料", "5瓣"),
+    ingredient("蚝油", "调料", "少许"),
+    ingredient("生抽", "调料", "少许")
+  ]),
+  dish("superior-soup-baby-cabbage", "上汤娃娃菜", gd, "粤式青菜豆腐", 20, ["清淡", "不辣"], [
+    ingredient("娃娃菜", "蔬菜", "2颗"),
+    ingredient("皮蛋", "蛋奶", "1个"),
+    ingredient("咸蛋", "蛋奶", "1个"),
+    ingredient("蒜", "调料", "5瓣"),
+    ingredient("高汤", "调料", "1碗")
+  ]),
+  dish("garlic-spinach", "蒜蓉菠菜", gd, "粤式青菜豆腐", 10, ["快手", "清淡"], [
+    ingredient("菠菜", "蔬菜", "1斤"),
+    ingredient("蒜", "调料", "5瓣"),
+    ingredient("花生油", "粮油", "少许")
+  ]),
+  dish("garlic-cabbage", "蒜蓉炒包菜", gd, "粤式青菜豆腐", 12, ["快手", "家常"], [
+    ingredient("包菜", "蔬菜", "1颗"),
+    ingredient("蒜", "调料", "5瓣"),
+    ingredient("蚝油", "调料", "少许")
+  ]),
+  dish("dace-lettuce", "豆豉鲮鱼油麦菜", gd, "粤式青菜豆腐", 15, ["快手", "下饭"], [
+    ingredient("油麦菜", "蔬菜", "1斤"),
+    ingredient("豆豉鲮鱼罐头", "罐头", "1罐"),
+    ingredient("蒜", "调料", "5瓣")
+  ]),
+  dish("oyster-broccoli", "蚝油西兰花", gd, "粤式青菜豆腐", 15, ["清淡", "快手"], [
+    ingredient("西兰花", "蔬菜", "1颗"),
+    ingredient("蒜", "调料", "5瓣"),
+    ingredient("蚝油", "调料", "少许")
+  ]),
+  dish("preserved-egg-amaranth", "皮蛋苋菜", gd, "粤式青菜豆腐", 18, ["家常", "清淡"], [
+    ingredient("苋菜", "蔬菜", "1斤"),
+    ingredient("皮蛋", "蛋奶", "1个"),
+    ingredient("蒜", "调料", "5瓣")
+  ]),
+  dish("minced-pork-tofu", "肉末豆腐", gd, "粤式青菜豆腐", 18, ["快手", "下饭"], [
+    ingredient("嫩豆腐", "豆制品", "2盒"),
+    ingredient("猪肉末", "肉类", "200g"),
+    ingredient("小葱", "调料", "1把"),
+    ingredient("生抽", "调料", "少许")
+  ]),
+  dish("steamed-tofu-shrimp", "虾仁蒸豆腐", gd, "粤式青菜豆腐", 20, ["清淡", "不辣"], [
+    ingredient("嫩豆腐", "豆制品", "2盒"),
+    ingredient("虾仁", "水产", "250g"),
+    ingredient("鸡蛋", "蛋奶", "1个"),
+    ingredient("小葱", "调料", "1把")
+  ]),
+
+  dish("lotus-root-pork-rib-soup", "莲藕排骨汤", gd, "粤式汤羹主食", 80, ["家常", "不辣", "汤"], [
+    ingredient("排骨", "肉类", "600g"),
+    ingredient("莲藕", "蔬菜", "2节"),
+    ingredient("花生", "干货", "1小把"),
+    ingredient("红枣", "干货", "6颗"),
+    ingredient("姜", "调料", "1块")
+  ]),
+  dish("carrot-corn-rib-soup", "玉米胡萝卜排骨汤", gd, "粤式汤羹主食", 70, ["清甜", "不辣", "汤"], [
+    ingredient("排骨", "肉类", "600g"),
+    ingredient("玉米", "蔬菜", "1根"),
+    ingredient("胡萝卜", "蔬菜", "1根"),
+    ingredient("马蹄", "蔬菜", "6个"),
+    ingredient("姜", "调料", "1块")
+  ]),
+  dish("dried-vegetable-pork-bone-soup", "菜干猪骨汤", gd, "粤式汤羹主食", 90, ["清润", "不辣", "汤"], [
+    ingredient("猪骨", "肉类", "600g"),
+    ingredient("白菜干", "干货", "1把"),
+    ingredient("蜜枣", "干货", "2颗"),
+    ingredient("胡萝卜", "蔬菜", "1根"),
+    ingredient("姜", "调料", "1块")
+  ]),
+  dish("winter-melon-duck-soup", "冬瓜老鸭汤", gd, "粤式汤羹主食", 90, ["清润", "不辣", "汤"], [
+    ingredient("老鸭", "肉类", "半只"),
+    ingredient("冬瓜", "蔬菜", "1块"),
+    ingredient("薏米", "干货", "1小把"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("陈皮", "干货", "1片")
+  ]),
+  dish("watercress-pork-bone-soup", "西洋菜猪骨汤", gd, "粤式汤羹主食", 80, ["清润", "汤"], [
+    ingredient("西洋菜", "蔬菜", "1把"),
+    ingredient("猪骨", "肉类", "600g"),
+    ingredient("蜜枣", "干货", "2颗"),
+    ingredient("姜", "调料", "1块")
+  ]),
+  dish("seaweed-egg-soup", "紫菜蛋花汤", gd, "粤式汤羹主食", 12, ["快手", "汤"], [
+    ingredient("紫菜", "干货", "1片"),
+    ingredient("鸡蛋", "蛋奶", "2个"),
+    ingredient("虾皮", "干货", "少许"),
+    ingredient("小葱", "调料", "1把")
+  ]),
+  dish("tomato-potato-beef-soup", "番茄土豆牛肉汤", gd, "粤式汤羹主食", 70, ["家常", "汤"], [
+    ingredient("牛肉", "肉类", "400g"),
+    ingredient("番茄", "蔬菜", "3个"),
+    ingredient("土豆", "蔬菜", "2个"),
+    ingredient("姜", "调料", "1块")
+  ]),
+  dish("preserved-egg-lean-pork-congee", "皮蛋瘦肉粥", gd, "粤式汤羹主食", 50, ["清淡", "早餐", "不辣"], [
+    ingredient("大米", "粮油", "1杯"),
+    ingredient("瘦肉", "肉类", "200g"),
+    ingredient("皮蛋", "蛋奶", "2个"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("小葱", "调料", "1把")
+  ]),
+  dish("claypot-rice-sausage", "腊味煲仔饭", gd, "粤式汤羹主食", 45, ["主食", "香口"], [
+    ingredient("大米", "粮油", "2杯"),
+    ingredient("腊肠", "肉类", "2根"),
+    ingredient("腊肉", "肉类", "1块"),
+    ingredient("菜心", "蔬菜", "半斤"),
+    ingredient("煲仔饭酱油", "调料", "少许")
+  ]),
+  dish("wonton-noodles", "云吞面", gd, "粤式汤羹主食", 25, ["主食", "汤面"], [
+    ingredient("云吞", "速食", "20个"),
+    ingredient("竹升面", "粮油", "4份"),
+    ingredient("青菜", "蔬菜", "半斤"),
+    ingredient("高汤", "调料", "适量")
+  ]),
+
+  dish("hakka-stuffed-tofu", "客家酿豆腐", hakka, "客家经典硬菜", 35, ["不辣", "经典", "下饭"], [
+    ingredient("老豆腐", "豆制品", "4块"),
+    ingredient("猪肉末", "肉类", "300g"),
+    ingredient("香菇", "蔬菜", "6朵"),
+    ingredient("小葱", "调料", "1把"),
+    ingredient("蚝油", "调料", "少许")
+  ]),
+  dish("hakka-salt-baked-chicken", "客家盐焗鸡", hakka, "客家经典硬菜", 55, ["经典", "硬菜", "不辣"], [
+    ingredient("三黄鸡", "肉类", "1只"),
+    ingredient("盐焗鸡粉", "调料", "1包"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("小葱", "调料", "1把"),
+    ingredient("粗盐", "调料", "适量")
+  ]),
+  dish("hakka-meicai-pork", "梅菜扣肉", hakka, "客家经典硬菜", 90, ["经典", "硬菜", "下饭"], [
+    ingredient("五花肉", "肉类", "700g"),
+    ingredient("梅干菜", "干货", "150g"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("蒜", "调料", "5瓣"),
+    ingredient("老抽", "调料", "少许")
+  ]),
+  dish("hakka-salty-chicken", "客家咸鸡", hakka, "客家经典硬菜", 50, ["咸香", "不辣", "冷吃"], [
+    ingredient("鸡", "肉类", "1只"),
+    ingredient("粗盐", "调料", "适量"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("沙姜粉", "调料", "少许"),
+    ingredient("小葱", "调料", "1把")
+  ]),
+  dish("pork-belly-chicken-soup", "猪肚包鸡", hakka, "客家经典硬菜", 110, ["硬菜", "汤", "不辣"], [
+    ingredient("猪肚", "肉类", "1个"),
+    ingredient("鸡", "肉类", "1只"),
+    ingredient("白胡椒粒", "调料", "1小把"),
+    ingredient("红枣", "干货", "8颗"),
+    ingredient("姜", "调料", "1块")
+  ]),
+  dish("hakka-rice-wine-chicken", "客家娘酒鸡", hakka, "客家经典硬菜", 45, ["酒香", "滋补", "不辣"], [
+    ingredient("鸡肉", "肉类", "半只"),
+    ingredient("客家娘酒", "酒水", "500ml"),
+    ingredient("姜", "调料", "1大块"),
+    ingredient("红枣", "干货", "6颗"),
+    ingredient("枸杞", "干货", "少许")
+  ]),
+  dish("hakka-braised-duck", "客家焖鸭", hakka, "客家经典硬菜", 70, ["硬菜", "不辣"], [
+    ingredient("鸭肉", "肉类", "半只"),
+    ingredient("姜", "调料", "1大块"),
+    ingredient("蒜", "调料", "5瓣"),
+    ingredient("米酒", "酒水", "少许"),
+    ingredient("生抽", "调料", "少许")
+  ]),
+  dish("hakka-red-braised-pork", "客家红焖肉", hakka, "客家经典硬菜", 75, ["下饭", "硬菜"], [
+    ingredient("五花肉", "肉类", "700g"),
+    ingredient("红曲米", "调料", "少许"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("蒜", "调料", "5瓣"),
+    ingredient("冰糖", "调料", "少许")
+  ]),
+  dish("hakka-three-cup-duck", "客家三杯鸭", hakka, "客家经典硬菜", 65, ["咸香", "下饭"], [
+    ingredient("鸭肉", "肉类", "半只"),
+    ingredient("米酒", "酒水", "1杯"),
+    ingredient("生抽", "调料", "1杯"),
+    ingredient("花生油", "粮油", "少许"),
+    ingredient("姜", "调料", "1块")
+  ]),
+  dish("taro-pork-belly", "芋头扣肉", hakka, "客家经典硬菜", 85, ["硬菜", "香糯"], [
+    ingredient("五花肉", "肉类", "700g"),
+    ingredient("荔浦芋头", "蔬菜", "1个"),
+    ingredient("南乳", "调料", "2块"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("蒜", "调料", "5瓣")
+  ]),
+
+  dish("stuffed-three-treasures", "客家酿三宝", hakka, "客家酿焖家常", 45, ["经典", "下饭"], [
+    ingredient("苦瓜", "蔬菜", "1根"),
+    ingredient("茄子", "蔬菜", "1根"),
+    ingredient("青椒", "蔬菜", "4个"),
+    ingredient("猪肉末", "肉类", "350g"),
+    ingredient("香菇", "蔬菜", "6朵")
+  ]),
+  dish("stuffed-bitter-melon", "酿苦瓜", hakka, "客家酿焖家常", 40, ["清爽", "下饭"], [
+    ingredient("苦瓜", "蔬菜", "2根"),
+    ingredient("猪肉末", "肉类", "300g"),
+    ingredient("香菇", "蔬菜", "4朵"),
+    ingredient("蒜", "调料", "4瓣"),
+    ingredient("蚝油", "调料", "少许")
+  ]),
+  dish("stuffed-eggplant", "酿茄子", hakka, "客家酿焖家常", 35, ["下饭", "家常"], [
+    ingredient("茄子", "蔬菜", "2根"),
+    ingredient("猪肉末", "肉类", "300g"),
+    ingredient("马蹄", "蔬菜", "5个"),
+    ingredient("小葱", "调料", "1把"),
+    ingredient("生抽", "调料", "少许")
+  ]),
+  dish("stuffed-green-pepper", "酿青椒", hakka, "客家酿焖家常", 35, ["下饭", "家常"], [
+    ingredient("青椒", "蔬菜", "6个"),
+    ingredient("猪肉末", "肉类", "300g"),
+    ingredient("香菇", "蔬菜", "4朵"),
+    ingredient("蒜", "调料", "4瓣"),
+    ingredient("蚝油", "调料", "少许")
+  ]),
+  dish("stuffed-mushroom", "酿冬菇", hakka, "客家酿焖家常", 35, ["鲜香", "家常"], [
+    ingredient("冬菇", "干货", "12朵"),
+    ingredient("猪肉末", "肉类", "300g"),
+    ingredient("马蹄", "蔬菜", "5个"),
+    ingredient("小葱", "调料", "1把")
+  ]),
+  dish("stuffed-tofu-puff", "酿豆卜", hakka, "客家酿焖家常", 30, ["下饭", "家常"], [
+    ingredient("豆腐泡", "豆制品", "300g"),
+    ingredient("猪肉末", "肉类", "300g"),
+    ingredient("香菇", "蔬菜", "4朵"),
+    ingredient("蚝油", "调料", "少许")
+  ]),
+  dish("bamboo-shoot-pork-belly", "笋干焖五花肉", hakka, "客家酿焖家常", 75, ["下饭", "咸香"], [
+    ingredient("五花肉", "肉类", "600g"),
+    ingredient("笋干", "干货", "150g"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("蒜", "调料", "5瓣"),
+    ingredient("八角", "调料", "2个")
+  ]),
+  dish("hakka-pickled-mustard-pork", "咸菜焖猪肉", hakka, "客家酿焖家常", 55, ["下饭", "酸香"], [
+    ingredient("五花肉", "肉类", "500g"),
+    ingredient("咸酸菜", "腌菜", "250g"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("蒜", "调料", "5瓣"),
+    ingredient("冰糖", "调料", "少许")
+  ]),
+  dish("braised-pork-belly-taro", "芋头焖五花肉", hakka, "客家酿焖家常", 60, ["香糯", "下饭"], [
+    ingredient("五花肉", "肉类", "500g"),
+    ingredient("芋头", "蔬菜", "600g"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("蒜", "调料", "5瓣"),
+    ingredient("南乳", "调料", "2块")
+  ]),
+  dish("fried-tofu-pork", "豆腐泡焖猪肉", hakka, "客家酿焖家常", 35, ["下饭", "家常"], [
+    ingredient("豆腐泡", "豆制品", "300g"),
+    ingredient("五花肉", "肉类", "300g"),
+    ingredient("蒜", "调料", "5瓣"),
+    ingredient("生抽", "调料", "少许")
+  ]),
+
+  dish("hakka-stir-fry", "客家小炒", hakka, "客家快手小炒", 28, ["下饭", "咸香", "快手"], [
+    ingredient("五花肉", "肉类", "250g"),
+    ingredient("鱿鱼干", "干货", "1只"),
+    ingredient("豆干", "豆制品", "4块"),
+    ingredient("芹菜", "蔬菜", "1把"),
+    ingredient("小葱", "调料", "1把")
+  ]),
+  dish("pickled-mustard-pork-intestine", "酸菜炒大肠", hakka, "客家快手小炒", 35, ["酸香", "下饭"], [
+    ingredient("猪大肠", "肉类", "500g"),
+    ingredient("酸菜", "腌菜", "250g"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("蒜", "调料", "5瓣"),
+    ingredient("青椒", "蔬菜", "2个")
+  ]),
+  dish("fried-river-shrimp-chives", "韭菜炒河虾", hakka, "客家快手小炒", 18, ["快手", "鲜香"], [
+    ingredient("河虾", "水产", "350g"),
+    ingredient("韭菜", "蔬菜", "1把"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("蒜", "调料", "3瓣"),
+    ingredient("米酒", "酒水", "少许")
+  ]),
+  dish("meicai-steamed-pork-patty", "梅菜蒸肉饼", hakka, "客家快手小炒", 28, ["快手", "下饭", "家常"], [
+    ingredient("猪肉末", "肉类", "350g"),
+    ingredient("梅干菜", "干货", "80g"),
+    ingredient("马蹄", "蔬菜", "5个"),
+    ingredient("小葱", "调料", "1把"),
+    ingredient("生抽", "调料", "少许")
+  ]),
+  dish("dried-squid-pork-patty", "鱿鱼干蒸肉饼", hakka, "客家快手小炒", 30, ["咸香", "下饭"], [
+    ingredient("猪肉末", "肉类", "350g"),
+    ingredient("鱿鱼干", "干货", "半只"),
+    ingredient("马蹄", "蔬菜", "5个"),
+    ingredient("小葱", "调料", "1把")
+  ]),
+  dish("preserved-radish-omelet", "萝卜干煎蛋", hakka, "客家快手小炒", 15, ["快手", "咸香"], [
+    ingredient("萝卜干", "腌菜", "1小把"),
+    ingredient("鸡蛋", "蛋奶", "4个"),
+    ingredient("小葱", "调料", "1把"),
+    ingredient("花生油", "粮油", "少许")
+  ]),
+  dish("hakka-tofu-pork-stir-fry", "豆干炒五花肉", hakka, "客家快手小炒", 25, ["下饭", "家常"], [
+    ingredient("豆干", "豆制品", "4块"),
+    ingredient("五花肉", "肉类", "300g"),
+    ingredient("青蒜", "蔬菜", "1把"),
+    ingredient("生抽", "调料", "少许")
+  ]),
+  dish("pickled-mustard-lean-pork", "酸菜炒瘦肉", hakka, "客家快手小炒", 20, ["酸香", "下饭", "快手"], [
+    ingredient("瘦肉", "肉类", "300g"),
+    ingredient("酸菜", "腌菜", "250g"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("蒜", "调料", "4瓣")
+  ]),
+  dish("hakka-egg-dumpling", "客家煎蛋角", hakka, "客家快手小炒", 30, ["家常", "小孩爱吃"], [
+    ingredient("鸡蛋", "蛋奶", "5个"),
+    ingredient("猪肉末", "肉类", "250g"),
+    ingredient("马蹄", "蔬菜", "4个"),
+    ingredient("小葱", "调料", "1把")
+  ]),
+  dish("garlic-chives-pork-blood", "韭菜炒猪红", hakka, "客家快手小炒", 18, ["快手", "家常"], [
+    ingredient("猪红", "肉类", "500g"),
+    ingredient("韭菜", "蔬菜", "1把"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("蒜", "调料", "4瓣")
+  ]),
+
+  dish("wuzhimaotao-pork-soup", "五指毛桃猪骨汤", hakka, "客家汤羹主食", 90, ["清润", "不辣", "汤"], [
+    ingredient("猪骨", "肉类", "600g"),
+    ingredient("五指毛桃", "干货", "1把"),
+    ingredient("红枣", "干货", "6颗"),
+    ingredient("玉米", "蔬菜", "1根"),
+    ingredient("姜", "调料", "1块")
+  ]),
+  dish("bitter-melon-rib-soup", "苦瓜黄豆排骨汤", hakka, "客家汤羹主食", 65, ["清爽", "不辣", "汤"], [
+    ingredient("排骨", "肉类", "500g"),
+    ingredient("苦瓜", "蔬菜", "2根"),
+    ingredient("黄豆", "干货", "1小碗"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("蜜枣", "干货", "1颗")
+  ]),
+  dish("mustard-pork-belly-soup", "咸菜猪肚汤", hakka, "客家汤羹主食", 80, ["酸香", "汤", "不辣"], [
+    ingredient("猪肚", "肉类", "1个"),
+    ingredient("咸酸菜", "腌菜", "250g"),
+    ingredient("白胡椒粒", "调料", "1小把"),
+    ingredient("姜", "调料", "1块"),
+    ingredient("小葱", "调料", "1把")
+  ]),
+  dish("hakka-sanjidi-soup", "三及第汤", hakka, "客家汤羹主食", 30, ["快手", "汤", "家常"], [
+    ingredient("瘦肉", "肉类", "200g"),
+    ingredient("猪肝", "肉类", "150g"),
+    ingredient("猪粉肠", "肉类", "150g"),
+    ingredient("枸杞叶", "蔬菜", "1把"),
+    ingredient("姜", "调料", "1块")
+  ]),
+  dish("hakka-radish-balls", "客家萝卜丸", hakka, "客家汤羹主食", 45, ["家常", "蒸菜"], [
+    ingredient("白萝卜", "蔬菜", "1根"),
+    ingredient("粘米粉", "粮油", "200g"),
+    ingredient("腊肠", "肉类", "1根"),
+    ingredient("虾米", "干货", "1小把"),
+    ingredient("小葱", "调料", "1把")
+  ]),
+  dish("hakka-abacus-seeds", "客家算盘子", hakka, "客家汤羹主食", 60, ["芋香", "家常"], [
+    ingredient("芋头", "蔬菜", "600g"),
+    ingredient("木薯粉", "粮油", "200g"),
+    ingredient("猪肉末", "肉类", "150g"),
+    ingredient("香菇", "蔬菜", "6朵"),
+    ingredient("虾米", "干货", "1小把")
+  ]),
+  dish("meizhou-marinated-noodles", "梅州腌面", hakka, "客家汤羹主食", 20, ["主食", "快手"], [
+    ingredient("碱水面", "粮油", "4份"),
+    ingredient("蒜蓉油", "调料", "适量"),
+    ingredient("葱花", "调料", "1把"),
+    ingredient("生抽", "调料", "少许")
+  ]),
+  dish("hakka-soup-rice-noodles", "客家汤粉", hakka, "客家汤羹主食", 25, ["主食", "汤粉"], [
+    ingredient("河粉", "粮油", "1斤"),
+    ingredient("瘦肉", "肉类", "250g"),
+    ingredient("青菜", "蔬菜", "半斤"),
+    ingredient("高汤", "调料", "适量")
+  ]),
+  dish("dried-vegetable-pork-lung-soup", "菜干猪肺汤", hakka, "客家汤羹主食", 90, ["清润", "汤"], [
+    ingredient("猪肺", "肉类", "1副"),
+    ingredient("白菜干", "干货", "1把"),
+    ingredient("蜜枣", "干货", "2颗"),
+    ingredient("姜", "调料", "1块")
+  ]),
+  dish("hakka-yellow-rice-cake", "客家黄粄", hakka, "客家汤羹主食", 45, ["主食", "家常"], [
+    ingredient("黄粄", "粮油", "1斤"),
+    ingredient("腊肉", "肉类", "1块"),
+    ingredient("青蒜", "蔬菜", "1把"),
+    ingredient("香菇", "蔬菜", "6朵")
+  ])
 ];
 
 module.exports = {

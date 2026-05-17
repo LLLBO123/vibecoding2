@@ -12,7 +12,7 @@ const keys = {
   history: "fm_history"
 };
 
-const seedVersion = "2026-05-16-guangdong-100-v4";
+const seedVersion = "2026-05-17-guangdong-hakka-100-v5";
 const settingsCacheTtl = 5 * 60 * 1000;
 let settingsCache = null;
 let settingsCacheAt = 0;
